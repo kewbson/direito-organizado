@@ -150,7 +150,7 @@ export function Support() {
     },
     {
       question: 'Meus dados ficam salvos?',
-      answer: 'Sim, todos os seus dados são salvos localmente no seu navegador. Para não perder informações, evite limpar os dados do navegador.'
+      answer: 'Depende, seus dados pessoais? Não, pois nós levamos a segurança de seus dados muito a sério. Suas modificações? Sim, são salvas localmente no seu navegador e também em nossa base de dados na nuvem.'
     }
   ]
 
