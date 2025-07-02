@@ -119,7 +119,6 @@ export function DigitalNotebook() {
         </Button>
       </div>
         </div>
-          
       {/* Filtros */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1">
@@ -223,7 +222,7 @@ export function DigitalNotebook() {
         <Card>
           <CardContent className="text-center py-12">
             <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium primary hover:primary/90 mb-2">
               {notes.length === 0 ? 'Nenhuma anotação criada' : 'Nenhuma anotação encontrada'}
             </h3>
             <p className="text-gray-500 mb-4">
@@ -235,7 +234,7 @@ export function DigitalNotebook() {
             {notes.length === 0 && (
               <Button 
                 onClick={() => setIsCreating(true)}
-                className="bg-orange-600 dark:text-orange-400"
+                className="bg-primary hover:bg-primary/90"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Criar primeira anotação

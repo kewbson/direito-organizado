@@ -133,9 +133,10 @@ export function StudyPlanning() {
     }
   }
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('pt-BR')
-  }
+const formatDate = (dateString) => {
+    // Adiciona { timeZone: 'UTC' } para que a data não seja deslocada pelo fuso horário local.
+    return new Date(dateString).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+  };
 
   const isOverdue = (dueDate, status) => {
     return status !== 'concluido' && new Date(dueDate) < new Date()
@@ -156,18 +157,21 @@ export function StudyPlanning() {
   }
 
   const getDatesWithPlans = () => {
-    return studyPlans.map(plan => new Date(plan.dueDate))
+    // Substituir hifens por barras força o JavaScript a interpretar a data no fuso horário local, e não em UTC.
+    return studyPlans.map(plan => new Date(plan.dueDate.replace(/-/g, '\/')))
   }
 
   const getSelectedDatePlans = () => {
-    if (!selectedDate) return []
-    
-    // Ajustar para o fuso horário local
-    const localDate = new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000)
-    const dateString = localDate.toISOString().split('T')[0]
-    
-    return studyPlans.filter(plan => plan.dueDate === dateString)
-  }
+    if (!selectedDate) return [];
+
+    // Constrói a data no formato YYYY-MM-DD a partir da data local para evitar problemas de fuso horário.
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // getMonth() é 0-indexed
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
+
+    return studyPlans.filter(plan => plan.dueDate === dateString);
+  };
 
   return (
     <div className="space-y-6">
@@ -361,7 +365,7 @@ export function StudyPlanning() {
         <Card>
           <CardContent className="text-center py-12">
             <Target className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium bgprimary hover:primary/900 mb-2">
               Nenhum plano de estudo criado
             </h3>
             <p className="text-gray-500 mb-4">
@@ -369,7 +373,7 @@ export function StudyPlanning() {
             </p>
             <Button 
               onClick={() => setIsCreating(true)}
-              className="bg-amber-600 hover:bg-amber-700"
+              className="primary hover:primary/90"
             >
               <Plus className="h-4 w-4 mr-2" />
               Criar primeiro plano
@@ -497,7 +501,7 @@ export function StudyPlanning() {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">
-                    Planos para {selectedDate ? formatDate(selectedDate.toISOString().split('T')[0]) : 'Selecione uma data'}
+                     Planos para {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Selecione uma data'}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
