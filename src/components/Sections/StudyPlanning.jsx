@@ -497,83 +497,91 @@ const formatDate = (dateString) => {
             </div>
 
             {/* Planos da data selecionada */}
-            <div className="lg:col-span-1">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">
-                     Planos para {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Selecione uma data'}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {getSelectedDatePlans().length === 0 ? (
-                    <div className="text-center py-8">
-                      <Target className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-500 text-sm">
-                        Nenhum plano de estudo programado para esta data
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {getSelectedDatePlans().map((plan) => (
-                        <div
-                          key={plan.id}
-                          className={`p-3 rounded-lg border ${
-                            isOverdue(plan.dueDate, plan.status) 
-                              ? 'border-red-200 bg-red-50' 
-                              : 'border-gray-200 bg-gray-50'
-                          }`}
-                        >
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="flex items-center space-x-2">
-                              {getStatusIcon(plan.status)}
-                              <h4 className="font-medium text-sm">{plan.title}</h4>
-                            </div>
-                            <div className="flex space-x-1">
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleEdit(plan)}
-                                className="h-6 w-6 p-0"
-                              >
-                                <Edit className="h-3 w-3" />
-                              </Button>
-                            </div>
-                          </div>
-                          
-                          <div className="flex flex-wrap items-center gap-1 mb-2">
-                            <Badge variant="secondary" className="text-xs">
-                              {plan.subject}
-                            </Badge>
-                            <Badge className={`${getPriorityColor(plan.priority)} text-xs`}>
-                              {plan.priority.charAt(0).toUpperCase() + plan.priority.slice(1)}
-                            </Badge>
-                            {isOverdue(plan.dueDate, plan.status) && (
-                              <Badge variant="destructive" className="text-xs">
-                                Atrasado
-                              </Badge>
-                            )}
-                          </div>
-                          
-                          {plan.description && (
-                            <p className="text-xs text-gray-600 mb-2 line-clamp-2">
-                              {plan.description}
-                            </p>
-                          )}
-                          
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs font-medium">Progresso</span>
-                              <span className="text-xs text-gray-500">{plan.progress}%</span>
-                            </div>
-                            <Progress value={plan.progress} className="h-1" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+<div className="lg:col-span-1">
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg">
+        Planos para {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Selecione uma data'}
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      {getSelectedDatePlans().length === 0 ? (
+        <div className="text-center py-8">
+          <Target className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+          <p className="text-gray-500 dark:text-gray-400 text-sm">
+            Nenhum plano de estudo programado para esta data
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {getSelectedDatePlans().map((plan) => (
+            <div
+              key={plan.id}
+              className={`p-3 rounded-lg border transition-colors
+                ${
+                  isOverdue(plan.dueDate, plan.status)
+                    ? 'border-red-200 bg-red-50 dark:border-red-400 dark:bg-red-950'
+                    : 'border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'
+                }
+              `}
+            >
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex items-center space-x-2">
+                  {getStatusIcon(plan.status)}
+                  <h4 className="font-medium text-sm text-gray-800 dark:text-gray-100">
+                    {plan.title}
+                  </h4>
+                </div>
+                <div className="flex space-x-1">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => handleEdit(plan)}
+                    className="h-6 w-6 p-0"
+                  >
+                    <Edit className="h-3 w-3 text-gray-500 dark:text-gray-400" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-1 mb-2">
+                <Badge variant="secondary" className="text-xs">
+                  {plan.subject}
+                </Badge>
+                <Badge className={`${getPriorityColor(plan.priority)} text-xs`}>
+                  {plan.priority.charAt(0).toUpperCase() + plan.priority.slice(1)}
+                </Badge>
+                {isOverdue(plan.dueDate, plan.status) && (
+                  <Badge variant="destructive" className="text-xs">
+                    Atrasado
+                  </Badge>
+                )}
+              </div>
+
+              {plan.description && (
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
+                  {plan.description}
+                </p>
+              )}
+
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-gray-800 dark:text-gray-100">Progresso</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{plan.progress}%</span>
+                </div>
+                <Progress
+                  value={plan.progress}
+                  className="h-1 bg-gray-200 dark:bg-gray-700 [&>*]:bg-primary"
+                />
+              </div>
             </div>
+          ))}
+        </div>
+      )}
+    </CardContent>
+  </Card>
+</div>
+
           </div>
         </TabsContent>
       </Tabs>

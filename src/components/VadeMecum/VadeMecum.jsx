@@ -141,6 +141,7 @@ const VadeMecum = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <div className="flex items-center justify-center gap-3 mb-4">
         <TabsList className="grid w-full grid-cols-2 lg:w-96">
           <TabsTrigger value="browse" className="flex items-center gap-2">
             <BookOpen className="h-4 w-4" />
@@ -151,6 +152,7 @@ const VadeMecum = () => {
             Estatísticas
           </TabsTrigger>
         </TabsList>
+          </div>
 
         <TabsContent value="browse" className="space-y-6">
           {/* Search Section */}
